@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Testnets - Lighthouse</title>
+        <title>CLI Overview - Lighthouse</title>
         
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li><a href="intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Development Environment</a></li><li><a href="testnets.html" class="active"><strong aria-hidden="true">3.</strong> Testnets</a></li><li><ol class="section"><li><a href="simple-testnet.html"><strong aria-hidden="true">3.1.</strong> Simple Local Testnet</a></li><li><a href="interop.html"><strong aria-hidden="true">3.2.</strong> Interop</a></li><li><a href="interop-tips.html"><strong aria-hidden="true">3.3.</strong> Interop Tips &amp; Tricks</a></li></ol></li></ol>
+                <ol class="chapter"><li><a href="intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Development Environment</a></li><li><a href="simple-testnet.html"><strong aria-hidden="true">3.</strong> Simple Local Testnet</a></li><li><a href="interop.html"><strong aria-hidden="true">4.</strong> Interop</a></li><li><ol class="section"><li><a href="interop-environment.html"><strong aria-hidden="true">4.1.</strong> Environment</a></li><li><a href="interop-cli.html" class="active"><strong aria-hidden="true">4.2.</strong> CLI Overview</a></li><li><a href="interop-scenarios.html"><strong aria-hidden="true">4.3.</strong> Scenarios</a></li><li><a href="interop-cheat-sheet.html"><strong aria-hidden="true">4.4.</strong> Cheat-sheet</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -145,29 +145,42 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#testnets" id="testnets">Testnets</a></h1>
-<p>Lighthouse does not offer a public testnet <em>yet</em>. In the meantime, it's easy to
-start a local testnet:</p>
+                        <h1><a class="header" href="#interop-cli-overview" id="interop-cli-overview">Interop CLI Overview</a></h1>
+<p>The Lighthouse CLI has two primary tasks:</p>
 <ul>
-<li><a href="testnets.html">Run a simple testnet</a> in Only Three CLI Commands™.</li>
-<li>Developers of other Eth2 clients should see the <a href="interop.html">interop guide</a>.</li>
-<li>The <a href="https://github.com/sigp/lighthouse-docker">sigp/lighthouse-docker</a> repo
-contains a <code>docker-compose</code> setup that runs a multi-node network with
-built-in metrics and monitoring dashboards, all from your local machine.</li>
+<li><strong>Resuming</strong> an existing database with <code>$ ./beacon_node</code>.</li>
+<li><strong>Creating</strong> a new testnet database using <code>$ ./beacon_node testnet</code>.</li>
 </ul>
+<p><em>See <a href="./interop-scenarios.html">Scenarios</a> for methods we're likely to use
+during interop.</em></p>
+<h2><a class="header" href="#creating-a-new-database" id="creating-a-new-database">Creating a new database</a></h2>
+<p>There are several methods for creating a new beacon node database:</p>
+<ul>
+<li><code>quick</code>: using the <code>(validator_client, genesis_time)</code> tuple.</li>
+<li><code>recent</code>: as above but <code>genesis_time</code> is set to the start of some recent time
+window.</li>
+<li><code>file</code>: loads the genesis file from disk in one of multiple formats.</li>
+<li><code>bootstrap</code>: a Lighthouse-specific method where we connect to a running node
+and download it's specification and genesis state via the HTTP API.</li>
+</ul>
+<p>See <code>$ ./beacon_node testnet --help</code> for more detail.</p>
+<h2><a class="header" href="#resuming-from-an-existing-database" id="resuming-from-an-existing-database">Resuming from an existing database</a></h2>
+<p>Once a database has been created, it can be resumed by running <code>$ ./beacon_node</code>.</p>
+<p>Presently, this command will fail if no existing database is found. You must
+use the <code>$ ./beacon_node testnet</code> command to create a new database.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="setup.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="interop-environment.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="simple-testnet.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="interop-scenarios.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -179,13 +192,13 @@ built-in metrics and monitoring dashboards, all from your local machine.</li>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a href="setup.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a href="interop-environment.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a href="simple-testnet.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a href="interop-scenarios.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 

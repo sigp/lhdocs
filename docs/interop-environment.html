@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Interop - Lighthouse</title>
+        <title>Environment - Lighthouse</title>
         
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li><a href="intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Development Environment</a></li><li><a href="simple-testnet.html"><strong aria-hidden="true">3.</strong> Simple Local Testnet</a></li><li><a href="interop.html" class="active"><strong aria-hidden="true">4.</strong> Interop</a></li><li><ol class="section"><li><a href="interop-environment.html"><strong aria-hidden="true">4.1.</strong> Environment</a></li><li><a href="interop-cli.html"><strong aria-hidden="true">4.2.</strong> CLI Overview</a></li><li><a href="interop-scenarios.html"><strong aria-hidden="true">4.3.</strong> Scenarios</a></li><li><a href="interop-cheat-sheet.html"><strong aria-hidden="true">4.4.</strong> Cheat-sheet</a></li></ol></li></ol>
+                <ol class="chapter"><li><a href="intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Development Environment</a></li><li><a href="simple-testnet.html"><strong aria-hidden="true">3.</strong> Simple Local Testnet</a></li><li><a href="interop.html"><strong aria-hidden="true">4.</strong> Interop</a></li><li><ol class="section"><li><a href="interop-environment.html" class="active"><strong aria-hidden="true">4.1.</strong> Environment</a></li><li><a href="interop-cli.html"><strong aria-hidden="true">4.2.</strong> CLI Overview</a></li><li><a href="interop-scenarios.html"><strong aria-hidden="true">4.3.</strong> Scenarios</a></li><li><a href="interop-cheat-sheet.html"><strong aria-hidden="true">4.4.</strong> Cheat-sheet</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -145,29 +145,42 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#lighthouse-interop-guide" id="lighthouse-interop-guide">Lighthouse Interop Guide</a></h1>
-<p>This guide is intended for other Ethereum 2.0 client developers performing
-inter-operability testing with Lighthouse.</p>
-<h2><a class="header" href="#chapters" id="chapters">Chapters</a></h2>
+                        <h1><a class="header" href="#interop-environment" id="interop-environment">Interop Environment</a></h1>
+<p>All that is required for inter-op is a built and tested <a href="./setup.html">development
+environment</a>.</p>
+<h2><a class="header" href="#repositories" id="repositories">Repositories</a></h2>
+<p>You will only require the <a href="http://github.com/sigp/lighthouse">sigp/lighthouse</a>
+library.</p>
+<p>To allow for faster build/test iterations we will use the
+<a href="https://github.com/sigp/lighthouse/tree/interop"><code>interop</code></a> branch of
+<a href="https://github.com/sigp/lighthouse/tree/interop">sigp/lighthouse</a> for
+September 2019 interop.  <strong>Please use ensure you <code>git checkout interop</code> after
+cloning the repo.</strong></p>
+<h2><a class="header" href="#file-system" id="file-system">File System</a></h2>
+<p>When lighthouse boots, it will create the following
+directories:</p>
 <ul>
-<li>Read about the required <a href="./interop-environment.html">development environment</a>.</li>
-<li>Get an <a href="./interop-cli.html">overview</a> of the Lighthouse CLI.</li>
-<li>See how we expect to handle some <a href="./interop-scenarios.html">interop scenarios</a>.</li>
-<li>See the <a href="./interop-cheat-sheet.html">interop cheat-sheet</a> for useful CLI tips.</li>
+<li><code>~/.lighthouse</code>: database and configuration for the beacon node.</li>
+<li><code>~/.lighthouse-validator</code>: database and configuration for the validator
+client.</li>
 </ul>
+<p>After building the binaries with <code>cargo build --release --all</code>, there will be a
+<code>target/release</code> directory in the root of the Lighthouse repository. This is
+where the <code>beacon_node</code> and <code>validator_client</code> binaries are located.</p>
+<p>You do not need to create any of these directories manually.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="simple-testnet.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="interop.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="interop-environment.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="interop-cli.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -179,13 +192,13 @@ inter-operability testing with Lighthouse.</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a href="simple-testnet.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a href="interop.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a href="interop-environment.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a href="interop-cli.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 

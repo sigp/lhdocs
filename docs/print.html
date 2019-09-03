@@ -80,7 +80,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li><a href="intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Development Environment</a></li><li><a href="testnets.html"><strong aria-hidden="true">3.</strong> Testnets</a></li><li><ol class="section"><li><a href="simple-testnet.html"><strong aria-hidden="true">3.1.</strong> Simple Local Testnet</a></li><li><a href="interop.html"><strong aria-hidden="true">3.2.</strong> Interop</a></li><li><a href="interop-tips.html"><strong aria-hidden="true">3.3.</strong> Interop Tips &amp; Tricks</a></li></ol></li></ol>
+                <ol class="chapter"><li><a href="intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Development Environment</a></li><li><a href="simple-testnet.html"><strong aria-hidden="true">3.</strong> Simple Local Testnet</a></li><li><a href="interop.html"><strong aria-hidden="true">4.</strong> Interop</a></li><li><ol class="section"><li><a href="interop-environment.html"><strong aria-hidden="true">4.1.</strong> Environment</a></li><li><a href="interop-cli.html"><strong aria-hidden="true">4.2.</strong> CLI Overview</a></li><li><a href="interop-scenarios.html"><strong aria-hidden="true">4.3.</strong> Scenarios</a></li><li><a href="interop-cheat-sheet.html"><strong aria-hidden="true">4.4.</strong> Cheat-sheet</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -154,30 +154,13 @@ clients to form a resilient and decentralized proof-of-stake blockchain.</p>
 <p>It is written in Rust, maintained by Sigma Prime and funded by the Ethereum
 Foundation, Consensys and other individuals and organisations.</p>
 <h2><a class="header" href="#developer-resources" id="developer-resources">Developer Resources</a></h2>
-<p>Documentation is provided for <strong>researchers and developers</strong> working on
-Ethereum 2.0 and assumes prior knowledge on the topic.</p>
+<p>Documentation is presently targeted at <strong>researchers and developers</strong>. It
+assumes significant prior knowledge of Ethereum 2.0.</p>
+<p>Topics:</p>
 <ul>
-<li>Get started with <a href="setup.html">development environment setup</a>.</li>
-<li><a href="simple-testnet.html">Run a simple testnet</a> in Only Three CLI Commands™.</li>
-<li>Read about our interop workflow.</li>
-<li>API?</li>
-</ul>
-<h2><a class="header" href="#release" id="release">Release</a></h2>
-<p>Ethereum 2.0 is not fully specified or implemented and as such, Lighthouse is
-still <strong>under development</strong>.</p>
-<p>We are on-track to provide a public, multi-client testnet in late-2019 and an
-initial production-grade blockchain in 2020.</p>
-<h2><a class="header" href="#features" id="features">Features</a></h2>
-<p>Lighthouse has been in development since mid-2018 and has an extensive feature
-set:</p>
-<ul>
-<li>Libp2p networking stack, featuring Discovery v5.</li>
-<li>Optimized <code>BeaconChain</code> state machine, up-to-date and
-passing all tests.</li>
-<li>RESTful HTTP API.</li>
-<li>Documented and feature-rich CLI interface.</li>
-<li>Capable of running small, local testnets with 250ms slot times.</li>
-<li>Detailed metrics exposed in the Prometheus format.</li>
+<li>Get started with <a href="./setup.html">development environment setup</a>.</li>
+<li>See the <a href="./interop.html">interop docs</a>.</li>
+<li><a href="./simple-testnet.html">Run a simple testnet</a> in Only Three CLI Commands™.</li>
 </ul>
 <h1><a class="header" href="#development-environment-setup" id="development-environment-setup">Development Environment Setup</a></h1>
 <p>Follow this guide to get a Lighthouse development environment up-and-running.</p>
@@ -241,16 +224,6 @@ Perl</a>, or alternatively use a choco install command
 <p>Additionally, the dependency <code>protoc-grpcio v0.3.1</code> is reported to have issues
 compiling in Windows. You can specify a known working version by editing
 version in <code>protos/Cargo.toml</code>  section to <code>protoc-grpcio = &quot;&lt;=0.3.0&quot;</code>.</p>
-<h1><a class="header" href="#testnets" id="testnets">Testnets</a></h1>
-<p>Lighthouse does not offer a public testnet <em>yet</em>. In the meantime, it's easy to
-start a local testnet:</p>
-<ul>
-<li><a href="testnets.html">Run a simple testnet</a> in Only Three CLI Commands™.</li>
-<li>Developers of other Eth2 clients should see the <a href="interop.html">interop guide</a>.</li>
-<li>The <a href="https://github.com/sigp/lighthouse-docker">sigp/lighthouse-docker</a> repo
-contains a <code>docker-compose</code> setup that runs a multi-node network with
-built-in metrics and monitoring dashboards, all from your local machine.</li>
-</ul>
 <h1><a class="header" href="#simple-local-testnet" id="simple-local-testnet">Simple Local Testnet</a></h1>
 <p>You can setup a local, two-node testnet in <strong>Only Three CLI Commands™</strong>.</p>
 <p>Follow the <a href="simple-testnet.html#tldr">Quick instructions</a> version if you're confident, or see
@@ -320,14 +293,26 @@ will download configuration via HTTP before starting sync via libp2p.</li>
 <h1><a class="header" href="#lighthouse-interop-guide" id="lighthouse-interop-guide">Lighthouse Interop Guide</a></h1>
 <p>This guide is intended for other Ethereum 2.0 client developers performing
 inter-operability testing with Lighthouse.</p>
-<p>To allow for faster iteration cycles without the &quot;merging to master&quot; overhead,
-we will use the <a href="https://github.com/sigp/lighthouse/tree/interop"><code>interop</code></a>
-branch of <a href="https://github.com/sigp/lighthouse/tree/interop">sigp/lighthouse</a>
-for September 2019 interop.  <strong>Please use ensure you <code>git checkout interop</code>
-after cloning the repo.</strong></p>
-<h2><a class="header" href="#environment" id="environment">Environment</a></h2>
-<p>All that is required for inter-op is a built and tested <a href="setup">development
-environment</a>. When lighthouse boots, it will create the following
+<h2><a class="header" href="#chapters" id="chapters">Chapters</a></h2>
+<ul>
+<li>Read about the required <a href="./interop-environment.html">development environment</a>.</li>
+<li>Get an <a href="./interop-cli.html">overview</a> of the Lighthouse CLI.</li>
+<li>See how we expect to handle some <a href="./interop-scenarios.html">interop scenarios</a>.</li>
+<li>See the <a href="./interop-cheat-sheet.html">interop cheat-sheet</a> for useful CLI tips.</li>
+</ul>
+<h1><a class="header" href="#interop-environment" id="interop-environment">Interop Environment</a></h1>
+<p>All that is required for inter-op is a built and tested <a href="./setup.html">development
+environment</a>.</p>
+<h2><a class="header" href="#repositories" id="repositories">Repositories</a></h2>
+<p>You will only require the <a href="http://github.com/sigp/lighthouse">sigp/lighthouse</a>
+library.</p>
+<p>To allow for faster build/test iterations we will use the
+<a href="https://github.com/sigp/lighthouse/tree/interop"><code>interop</code></a> branch of
+<a href="https://github.com/sigp/lighthouse/tree/interop">sigp/lighthouse</a> for
+September 2019 interop.  <strong>Please use ensure you <code>git checkout interop</code> after
+cloning the repo.</strong></p>
+<h2><a class="header" href="#file-system" id="file-system">File System</a></h2>
+<p>When lighthouse boots, it will create the following
 directories:</p>
 <ul>
 <li><code>~/.lighthouse</code>: database and configuration for the beacon node.</li>
@@ -337,13 +322,17 @@ client.</li>
 <p>After building the binaries with <code>cargo build --release --all</code>, there will be a
 <code>target/release</code> directory in the root of the Lighthouse repository. This is
 where the <code>beacon_node</code> and <code>validator_client</code> binaries are located.</p>
-<h2><a class="header" href="#cli-overview" id="cli-overview">CLI Overview</a></h2>
+<p>You do not need to create any of these directories manually.</p>
+<h1><a class="header" href="#interop-cli-overview" id="interop-cli-overview">Interop CLI Overview</a></h1>
 <p>The Lighthouse CLI has two primary tasks:</p>
 <ul>
-<li><strong>Starting</strong> a new testnet chain using <code>$ ./beacon_node testnet</code>.</li>
-<li><strong>Resuming</strong> an existing chain with <code>$ ./beacon_node</code> (omit <code>testnet</code>).</li>
+<li><strong>Resuming</strong> an existing database with <code>$ ./beacon_node</code>.</li>
+<li><strong>Creating</strong> a new testnet database using <code>$ ./beacon_node testnet</code>.</li>
 </ul>
-<p>There are several methods for starting a new chain:</p>
+<p><em>See <a href="./interop-scenarios.html">Scenarios</a> for methods we're likely to use
+during interop.</em></p>
+<h2><a class="header" href="#creating-a-new-database" id="creating-a-new-database">Creating a new database</a></h2>
+<p>There are several methods for creating a new beacon node database:</p>
 <ul>
 <li><code>quick</code>: using the <code>(validator_client, genesis_time)</code> tuple.</li>
 <li><code>recent</code>: as above but <code>genesis_time</code> is set to the start of some recent time
@@ -353,23 +342,28 @@ window.</li>
 and download it's specification and genesis state via the HTTP API.</li>
 </ul>
 <p>See <code>$ ./beacon_node testnet --help</code> for more detail.</p>
-<p>Once a chain has been started, it can be resumed by running <code>$ ./beacon_node</code>
-(potentially supplying the <code>--datadir</code>, if a non-default directory was used).</p>
-<h2><a class="header" href="#scenarios" id="scenarios">Scenarios</a></h2>
-<p>The following scenarios are documented here:</p>
+<h2><a class="header" href="#resuming-from-an-existing-database" id="resuming-from-an-existing-database">Resuming from an existing database</a></h2>
+<p>Once a database has been created, it can be resumed by running <code>$ ./beacon_node</code>.</p>
+<p>Presently, this command will fail if no existing database is found. You must
+use the <code>$ ./beacon_node testnet</code> command to create a new database.</p>
+<h1><a class="header" href="#interop-scenarios" id="interop-scenarios">Interop Scenarios</a></h1>
+<p>Here we demonstrate some expected interop scenarios.</p>
+<p>All scenarios assume a working <a href="./setup.html">development environment</a> and
+commands are based in the <code>target/release</code> directory (this is the build dir for
+<code>cargo</code>).</p>
+<p>Additional functions can be found in the <a href="./interop-cheat-sheet.html">interop
+cheat-sheet</a>.</p>
+<h3><a class="header" href="#table-of-contents" id="table-of-contents">Table of contents</a></h3>
 <ul>
-<li><a href="interop.html#quick-start-beacon-node">Starting a &quot;quick-start&quot; beacon node</a> from a
-<code>(validator_count, genesis)</code> tuple.</li>
-<li><a href="interop.html#validator-client">Starting a validator client</a> with <code>n</code> interop keypairs.</li>
-<li><a href="interop.html#starting-from-a-genesis-file">Starting a node from a genesis state file</a>.</li>
-<li><a href="interop.html#exporting-a-genesis-file">Exporting a genesis state file</a> from a running Lighthouse
-node.</li>
+<li><a href="interop-scenarios.html#quick-start">Starting from a<code>validator_count, genesis_time</code> tuple</a></li>
+<li><a href="interop-scenarios.html#state-file">Starting a node from a genesis state file</a></li>
+<li><a href="interop-scenarios.html#val-client">Starting a validator client</a></li>
+<li><a href="interop-scenarios.html#export">Exporting a genesis state file</a> from a running Lighthouse
+node</li>
 </ul>
-<p>All scenarios assume a working development environment and commands are based
-in the <code>target/release</code> directory (this is the build dir for <code>cargo</code>).</p>
-<h4><a class="header" href="#quick-start-beacon-node" id="quick-start-beacon-node">Quick-start Beacon Node</a></h4>
-<p>To start the node (each time creating a fresh database and configuration in
-<code>~/.lighthouse</code>), use:</p>
+<p><a name="quick-start"></a></p>
+<h3><a class="header" href="#start-beacon-node-given-a-validator-count-and-genesis_time" id="start-beacon-node-given-a-validator-count-and-genesis_time">Start beacon node given a validator count and genesis_time</a></h3>
+<p>To start a brand-new beacon node (with no history) use:</p>
 <pre><code>$ ./beacon_node testnet -f quick 8 1567222226
 </code></pre>
 <blockquote>
@@ -384,26 +378,8 @@ up before re-initializing.</li>
 <li>See <code>$ ./beacon_node testnet quick --help</code> for more configuration options.</li>
 </ul>
 </blockquote>
-<h4><a class="header" href="#validator-client" id="validator-client">Validator Client</a></h4>
-<p>Start the validator client with:</p>
-<pre><code>$ ./validator_client testnet -b insecure 0 8
-</code></pre>
-<blockquote>
-<p>Notes:</p>
-<ul>
-<li>The <code>-b</code> flag means the validator client will &quot;bootstrap&quot; specs and config
-from the beacon node.</li>
-<li>The <code>insecure</code> command dictates that the <a href="https://github.com/ethereum/eth2.0-pm/tree/6e41fcf383ebeb5125938850d8e9b4e9888389b4/interop/mocked_start#pubkeyprivkey-generation">interop keypairs</a>
-will be used.</li>
-<li>The <code>0 8</code> indicates that this validator client should manage 8 validators,
-starting at validator 0 (the first deposited validator).</li>
-<li>The validator client will try to connect to the beacon node at <code>localhost</code>.
-See <code>--help</code> to configure that address and other features.</li>
-<li>The validator client will operate very unsafely in <code>testnet</code> mode, happily
-swapping between chains and creating double-votes.</li>
-</ul>
-</blockquote>
-<h4><a class="header" href="#starting-from-a-genesis-file" id="starting-from-a-genesis-file">Starting from a genesis file</a></h4>
+<p><a name="state-file"></a></p>
+<h3><a class="header" href="#start-beacon-node-given-a-genesis-state-file" id="start-beacon-node-given-a-genesis-state-file">Start Beacon Node given a genesis state file</a></h3>
 <p>A genesis state can be read from file using the <code>testnet file</code> subcommand.
 There are three supported formats:</p>
 <ul>
@@ -422,7 +398,28 @@ up before re-initializing.</li>
 <li>See <code>$ ./beacon_node testnet file --help</code> for more configuration options.</li>
 </ul>
 </blockquote>
-<h4><a class="header" href="#exporting-a-genesis-file" id="exporting-a-genesis-file">Exporting a genesis file</a></h4>
+<p><a name="val-client"></a></p>
+<h3><a class="header" href="#start-an-auto-configured-validator-client" id="start-an-auto-configured-validator-client">Start an auto-configured validator client</a></h3>
+<p>To start a brand-new validator client (with no history) use:</p>
+<pre><code>$ ./validator_client testnet -b insecure 0 8
+</code></pre>
+<blockquote>
+<p>Notes:</p>
+<ul>
+<li>The <code>-b</code> flag means the validator client will &quot;bootstrap&quot; specs and config
+from the beacon node.</li>
+<li>The <code>insecure</code> command dictates that the <a href="https://github.com/ethereum/eth2.0-pm/tree/6e41fcf383ebeb5125938850d8e9b4e9888389b4/interop/mocked_start#pubkeyprivkey-generation">interop keypairs</a>
+will be used.</li>
+<li>The <code>0 8</code> indicates that this validator client should manage 8 validators,
+starting at validator 0 (the first deposited validator).</li>
+<li>The validator client will try to connect to the beacon node at <code>localhost</code>.
+See <code>--help</code> to configure that address and other features.</li>
+<li>The validator client will operate very unsafely in <code>testnet</code> mode, happily
+swapping between chains and creating double-votes.</li>
+</ul>
+</blockquote>
+<p><a name="export"></a></p>
+<h3><a class="header" href="#exporting-a-genesis-file" id="exporting-a-genesis-file">Exporting a genesis file</a></h3>
 <p>Genesis states can downloaded from a running Lighthouse node via the HTTP API. Three content-types are supported:</p>
 <ul>
 <li><code>application/json</code></li>
@@ -432,12 +429,33 @@ up before re-initializing.</li>
 <p>Using <code>curl</code>, a genesis state can be downloaded to <code>/tmp/genesis.ssz</code>:</p>
 <pre><code>$ curl --header &quot;Content-Type: application/ssz&quot; &quot;localhost:5052/beacon/state/genesis&quot; -o /tmp/genesis.ssz
 </code></pre>
-<h1><a class="header" href="#interop-tips--tricks" id="interop-tips--tricks">Interop Tips &amp; Tricks</a></h1>
+<h1><a class="header" href="#interop-cheat-sheet" id="interop-cheat-sheet">Interop Cheat-sheet</a></h1>
 <p>This document contains a list of tips and tricks that may be useful during
 interop testing.</p>
-<h2><a class="header" href="#command-line-interface" id="command-line-interface">Command-line Interface</a></h2>
+<ul>
+<li>When starting a beacon node:
+<ul>
+<li><a href="interop-cheat-sheet.html#boot-node-multiaddr">Specify a boot node by multiaddr</a></li>
+<li><a href="interop-cheat-sheet.html#boot-node-enr">Specify a boot node by ENR</a></li>
+<li><a href="interop-cheat-sheet.html#port-bump">Avoid port clashes when starting multiple nodes</a></li>
+<li><a href="interop-cheat-sheet.html#slot-time">Specify a custom slot time</a></li>
+</ul>
+</li>
+<li>Using the beacon node HTTP API:
+<ul>
+<li><a href="interop-cheat-sheet.html#http-enr">Curl a nodes ENR</a></li>
+<li><a href="interop-cheat-sheet.html#http-peer-ids">Curl a nodes connected peers</a></li>
+<li><a href="interop-cheat-sheet.html#http-peer-id">Curl a nodes local peer id</a></li>
+<li><a href="interop-cheat-sheet.html#http-listen-addresses">Curl a nodes listening multiaddrs</a></li>
+<li><a href="interop-cheat-sheet.html#http-head">Curl a nodes beacon chain head</a></li>
+<li><a href="interop-cheat-sheet.html#http-finalized">Curl a nodes finalized checkpoint</a></li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#category-cli" id="category-cli">Category: CLI</a></h2>
 <p>The <code>--help</code> command provides detail on the CLI interface. Here are some
 interop-specific CLI commands.</p>
+<p><a name="boot-node-multiaddr"></a></p>
 <h3><a class="header" href="#specify-a-boot-node-by-multiaddr" id="specify-a-boot-node-by-multiaddr">Specify a boot node by multiaddr</a></h3>
 <p>You can specify a static list of multiaddrs when booting Lighthouse using
 the <code>--libp2p-addresses</code> command.</p>
@@ -445,6 +463,7 @@ the <code>--libp2p-addresses</code> command.</p>
 <p>Runs an 8 validator quick-start chain, peering with <code>/ip4/192.168.0.1/tcp/9000</code> on boot.</p>
 <pre><code>$ ./beacon_node --libp2p-addresses /ip4/192.168.0.1/tcp/9000 testnet -f quick 8 1567222226
 </code></pre>
+<p><a name="boot-node-enr"></a></p>
 <h3><a class="header" href="#specify-a-boot-node-by-enr" id="specify-a-boot-node-by-enr">Specify a boot node by ENR</a></h3>
 <p>You can specify a static list of Discv5 addresses when booting Lighthouse using
 the <code>--boot-nodes</code> command.</p>
@@ -452,6 +471,7 @@ the <code>--boot-nodes</code> command.</p>
 <p>Runs an 8 validator quick-start chain, peering with <code>-IW4QB2...</code> on boot.</p>
 <pre><code>$ ./beacon_node --boot-nodes -IW4QB2Hi8TPuEzQ41Cdf1r2AUU1FFVFDBJdJyOkWk2qXpZfFZQy2YnJIyoT_5fnbtrXUouoskmydZl4pIg90clIkYUDgmlwhH8AAAGDdGNwgiMog3VkcIIjKIlzZWNwMjU2azGhAjg0-DsTkQynhJCRnLLttBK1RS78lmUkLa-wgzAi-Ob5 testnet -f quick 8 1567222226
 </code></pre>
+<p><a name="port-bump"></a></p>
 <h3><a class="header" href="#avoid-port-clashes-when-starting-nodes" id="avoid-port-clashes-when-starting-nodes">Avoid port clashes when starting nodes</a></h3>
 <p>Starting a second Lighthouse node on the same machine will fail due to TCP/UDP
 port collisions. Use the <code>-b</code> (<code>--port-bump</code>) flag to increase all listening
@@ -460,6 +480,7 @@ ports by some <code>n</code>.</p>
 <p>Increase all ports by <code>10</code> (using multiples of <code>10</code> is recommended).</p>
 <pre><code>$ ./beacon_node -b 10 testnet -f quick 8 1567222226
 </code></pre>
+<p><a name="slot-time"></a></p>
 <h3><a class="header" href="#start-a-testnet-with-a-custom-slot-time" id="start-a-testnet-with-a-custom-slot-time">Start a testnet with a custom slot time</a></h3>
 <p>Lighthouse can run at quite low slot times when there are few validators (e.g.,
 <code>500 ms</code> slot times should be fine for 8 validators).</p>
@@ -471,35 +492,41 @@ ports by some <code>n</code>.</p>
 <p>Note: <code>bootstrap</code> loads the slot time via HTTP and therefore conflicts with
 this flag.</p>
 </blockquote>
-<h2><a class="header" href="#http-api" id="http-api">HTTP API</a></h2>
+<h2><a class="header" href="#category-http-api" id="category-http-api">Category: HTTP API</a></h2>
 <p>Examples assume there is a Lighthouse node exposing a HTTP API on
 <code>localhost:5052</code>. Responses are JSON.</p>
+<p><a name="http-enr"></a></p>
 <h3><a class="header" href="#get-the-nodes-enr" id="get-the-nodes-enr">Get the node's ENR</a></h3>
 <pre><code>$ curl localhost:5052/network/enr
 
 &quot;-IW4QFyf1VlY5pZs0xZuvKMRZ9_cdl9WMCDAAJXZiZiuGcfRYoU40VPrYDLQj5prneJIz3zcbTjHp9BbThc-yiymJO8HgmlwhH8AAAGDdGNwgiMog3VkcIIjKIlzZWNwMjU2azGhAjg0-DsTkQynhJCRnLLttBK1RS78lmUkLa-wgzAi-Ob5&quot;%
 </code></pre>
+<p><a name="http-peer-ids"></a></p>
 <h3><a class="header" href="#get-a-list-of-connected-peer-ids" id="get-a-list-of-connected-peer-ids">Get a list of connected peer ids</a></h3>
 <pre><code>$ curl localhost:5052/network/peers
 
 [&quot;QmeMFRTWfo3KbVG7dEBXGhyRMa29yfmnJBXW84rKuGEhuL&quot;]%
 </code></pre>
+<p><a name="http-peer-id"></a></p>
 <h3><a class="header" href="#get-the-nodes-peer-id" id="get-the-nodes-peer-id">Get the node's peer id</a></h3>
 <pre><code>curl localhost:5052/network/peer_id
 
 &quot;QmRD1qs2AqNNRdBcGHUGpUGkpih5cmdL32mhh22Sy79xsJ&quot;%
 </code></pre>
+<p><a name="http-listen-addresses"></a></p>
 <h3><a class="header" href="#get-the-list-of-listening-libp2p-addresses" id="get-the-list-of-listening-libp2p-addresses">Get the list of listening libp2p addresses</a></h3>
 <p>Lists all the libp2p multiaddrs that the node is listening on.</p>
 <pre><code>curl localhost:5052/network/listen_addresses
 
 [&quot;/ip4/127.0.0.1/tcp/9000&quot;,&quot;/ip4/192.168.1.121/tcp/9000&quot;,&quot;/ip4/172.17.0.1/tcp/9000&quot;,&quot;/ip4/172.42.0.1/tcp/9000&quot;,&quot;/ip6/::1/tcp/9000&quot;,&quot;/ip6/fdd3:c293:1bc::203/tcp/9000&quot;,&quot;/ip6/fdd3:c293:1bc:0:9aa9:b2ea:c610:44db/tcp/9000&quot;]%
 </code></pre>
+<p><a name="http-head"></a></p>
 <h3><a class="header" href="#get-the-nodes-beacon-chain-head" id="get-the-nodes-beacon-chain-head">Get the node's beacon chain head</a></h3>
 <pre><code>curl localhost:5052/beacon/head
 
 {&quot;slot&quot;:0,&quot;block_root&quot;:&quot;0x827bf71805540aa13f6d8c7d18b41b287b2094a4d7a28cbb8deb061dbf5df4f5&quot;,&quot;state_root&quot;:&quot;0x90a78d73294bc9c7519a64e1912161be0e823eb472012ff54204e15a4d717fa5&quot;}%
 </code></pre>
+<p><a name="http-finalized"></a></p>
 <h3><a class="header" href="#get-the-nodes-finalized-checkpoint" id="get-the-nodes-finalized-checkpoint">Get the node's finalized checkpoint</a></h3>
 <pre><code>curl localhost:5052/beacon/latest_finalized_checkpoint
 
