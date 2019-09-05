@@ -444,6 +444,7 @@ interop testing.</p>
 </li>
 <li>Using the beacon node HTTP API:
 <ul>
+<li><a href="interop-cheat-sheet.html#http-state">Pretty-print the genesis state and state root</a></li>
 <li><a href="interop-cheat-sheet.html#http-enr">Curl a node's ENR</a></li>
 <li><a href="interop-cheat-sheet.html#http-peer-ids">Curl a node's connected peers</a></li>
 <li><a href="interop-cheat-sheet.html#http-peer-id">Curl a node's local peer id</a></li>
@@ -461,16 +462,14 @@ interop-specific CLI commands.</p>
 <p>You can specify a static list of multiaddrs when booting Lighthouse using
 the <code>--libp2p-addresses</code> command.</p>
 <h4><a class="header" href="#example" id="example">Example:</a></h4>
-<p>Runs an 8 validator quick-start chain, peering with <code>/ip4/192.168.0.1/tcp/9000</code> on boot.</p>
-<pre><code>$ ./beacon_node --libp2p-addresses /ip4/192.168.0.1/tcp/9000 testnet -f quick 8 1567222226
+<pre><code>$ ./beacon_node --libp2p-addresses /ip4/192.168.0.1/tcp/9000
 </code></pre>
 <p><a name="boot-node-enr"></a></p>
 <h3><a class="header" href="#specify-a-boot-node-by-enr" id="specify-a-boot-node-by-enr">Specify a boot node by ENR</a></h3>
 <p>You can specify a static list of Discv5 addresses when booting Lighthouse using
 the <code>--boot-nodes</code> command.</p>
 <h4><a class="header" href="#example-1" id="example-1">Example:</a></h4>
-<p>Runs an 8 validator quick-start chain, peering with <code>-IW4QB2...</code> on boot.</p>
-<pre><code>$ ./beacon_node --boot-nodes -IW4QB2Hi8TPuEzQ41Cdf1r2AUU1FFVFDBJdJyOkWk2qXpZfFZQy2YnJIyoT_5fnbtrXUouoskmydZl4pIg90clIkYUDgmlwhH8AAAGDdGNwgiMog3VkcIIjKIlzZWNwMjU2azGhAjg0-DsTkQynhJCRnLLttBK1RS78lmUkLa-wgzAi-Ob5 testnet -f quick 8 1567222226
+<pre><code>$ ./beacon_node --boot-nodes -IW4QB2Hi8TPuEzQ41Cdf1r2AUU1FFVFDBJdJyOkWk2qXpZfFZQy2YnJIyoT_5fnbtrXUouoskmydZl4pIg90clIkYUDgmlwhH8AAAGDdGNwgiMog3VkcIIjKIlzZWNwMjU2azGhAjg0-DsTkQynhJCRnLLttBK1RS78lmUkLa-wgzAi-Ob5
 </code></pre>
 <p><a name="port-bump"></a></p>
 <h3><a class="header" href="#avoid-port-clashes-when-starting-nodes" id="avoid-port-clashes-when-starting-nodes">Avoid port clashes when starting nodes</a></h3>
@@ -479,7 +478,7 @@ port collisions. Use the <code>-b</code> (<code>--port-bump</code>) flag to incr
 ports by some <code>n</code>.</p>
 <h4><a class="header" href="#example-2" id="example-2">Example:</a></h4>
 <p>Increase all ports by <code>10</code> (using multiples of <code>10</code> is recommended).</p>
-<pre><code>$ ./beacon_node -b 10 testnet -f quick 8 1567222226
+<pre><code>$ ./beacon_node -b 10
 </code></pre>
 <p><a name="slot-time"></a></p>
 <h3><a class="header" href="#start-a-testnet-with-a-custom-slot-time" id="start-a-testnet-with-a-custom-slot-time">Start a testnet with a custom slot time</a></h3>
@@ -487,7 +486,7 @@ ports by some <code>n</code>.</p>
 <code>500 ms</code> slot times should be fine for 8 validators).</p>
 <h4><a class="header" href="#example-3" id="example-3">Example</a></h4>
 <p>The <code>-t</code> (<code>--slot-time</code>) flag specifies the milliseconds per slot.</p>
-<pre><code>$ ./beacon_node -b 10 testnet -t 500 -f quick 8 1567222226
+<pre><code>$ ./beacon_node testnet -t 500 recent 8
 </code></pre>
 <blockquote>
 <p>Note: <code>bootstrap</code> loads the slot time via HTTP and therefore conflicts with
@@ -496,6 +495,12 @@ this flag.</p>
 <h2><a class="header" href="#category-http-api" id="category-http-api">Category: HTTP API</a></h2>
 <p>Examples assume there is a Lighthouse node exposing a HTTP API on
 <code>localhost:5052</code>. Responses are JSON.</p>
+<p><a name="http-state"></a></p>
+<h3><a class="header" href="#pretty-print-the-genesis-state-and-state-root" id="pretty-print-the-genesis-state-and-state-root">Pretty-print the genesis state and state root</a></h3>
+<p>Returns the genesis state and state root in your terminal, in YAML.</p>
+<pre><code>$ curl --header &quot;Content-Type: application/yaml&quot;
+&quot;localhost:5052/beacon/state?slot=0&quot;
+</code></pre>
 <p><a name="http-enr"></a></p>
 <h3><a class="header" href="#get-the-nodes-enr" id="get-the-nodes-enr">Get the node's ENR</a></h3>
 <pre><code>$ curl localhost:5052/network/enr
