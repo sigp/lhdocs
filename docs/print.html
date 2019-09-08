@@ -171,12 +171,10 @@ assumes significant prior knowledge of Ethereum 2.0.</p>
 <li>Install Rust + Cargo with <a href="https://rustup.rs/">rustup</a>.</li>
 <li>Install build dependencies using your package manager.
 <ul>
-<li><code>$ &lt;package-manager&gt; clang protobuf libssl-dev cmake git-lfs</code></li>
-<li>Ensure <a href="https://git-lfs.github.com/">git-lfs</a> is installed with <code>git lfs install</code>.</li>
+<li><code>$ &lt;package-manager&gt; clang protobuf libssl-dev cmake</code></li>
 </ul>
 </li>
-<li>Clone the <a href="https://github.com/sigp/lighthouse">sigp/lighthouse</a>, ensuring to
-<strong>initialize submodules</strong>.</li>
+<li>Clone the <a href="https://github.com/sigp/lighthouse">sigp/lighthouse</a>.</li>
 <li>In the root of the repo, run the tests with <code>cargo test --all --release</code>.</li>
 <li>Then, build the binaries with <code>cargo build --all --release</code>.</li>
 <li>Lighthouse is now fully built and tested.</li>
@@ -202,13 +200,9 @@ distribution will likely be similar):
 <li><code>protobuf</code>: required for protobuf serialization (gRPC)</li>
 <li><code>libssl-dev</code>: also gRPC</li>
 <li><code>cmake</code>: required for building protobuf</li>
-<li><code>git-lfs</code>: The Git extension for <a href="https://git-lfs.github.com/">Large File
-Support</a> (required for Ethereum Foundation
-test vectors).</li>
 </ul>
 </li>
-<li>Clone the repository with submodules: <code>git clone --recursive https://github.com/sigp/lighthouse</code>.  If you're already cloned the repo,
-ensure testing submodules are present: <code>$ git submodule init; git submodule update</code></li>
+<li>Clone the repository with submodules: <code>git clone https://github.com/sigp/lighthouse</code>.</li>
 <li>Change directory to the root of the repository.</li>
 <li>Run the test suite with <code>cargo test --all --release</code>. The build and test
 process can take several minutes. If you experience any failures on
@@ -224,6 +218,24 @@ Perl</a>, or alternatively use a choco install command
 <p>Additionally, the dependency <code>protoc-grpcio v0.3.1</code> is reported to have issues
 compiling in Windows. You can specify a known working version by editing
 version in <code>protos/Cargo.toml</code>  section to <code>protoc-grpcio = &quot;&lt;=0.3.0&quot;</code>.</p>
+<h2><a class="header" href="#eth20-spec-tests" id="eth20-spec-tests">eth2.0-spec-tests</a></h2>
+<p>The
+<a href="https://github.com/ethereum/eth2.0-spec-tests/">ethereum/eth2.0-spec-tests</a>
+repository contains a large set of tests that verify Lighthouse behaviour
+against the Ethereum Foundation specifications.</p>
+<p>The <code>tests/ef_tests</code> crate runs these tests and it has some interesting
+behaviours:</p>
+<ul>
+<li>If the <code>tests/ef_tests/eth2.0-spec-tests</code> directory is not present, all tests
+indicate a <code>pass</code> when they did not actually run.</li>
+<li>If that directory <em>is</em> present, the tests are executed faithfully, failing if
+a discrepancy is found.</li>
+</ul>
+<p>The <code>tests/ef_tests/eth2.0-spec-tests</code> directory is not present by default. To
+obtain it, use the Makefile in the root of the repository:</p>
+<pre><code>make ef_tests
+</code></pre>
+<p><em>Note: this will download 100+ MB of test files from the <a href="https://github.com/ethereum/eth2.0-spec-tests/">ethereum/eth2.0-spec-tests</a>.</em></p>
 <h1><a class="header" href="#simple-local-testnet" id="simple-local-testnet">Simple Local Testnet</a></h1>
 <p>You can setup a local, two-node testnet in <strong>Only Three CLI Commands™</strong>.</p>
 <p>Follow the <a href="simple-testnet.html#tldr">Quick instructions</a> version if you're confident, or see
@@ -364,8 +376,9 @@ node</li>
 <p><a name="quick-start"></a></p>
 <h3><a class="header" href="#start-beacon-node-given-a-validator-count-and-genesis_time" id="start-beacon-node-given-a-validator-count-and-genesis_time">Start beacon node given a validator count and genesis_time</a></h3>
 <p>To start a brand-new beacon node (with no history) use:</p>
-<pre><code>$ ./beacon_node testnet -f quick 8 1567222226
+<pre><code>$ ./beacon_node testnet -f quick 8 &lt;GENESIS_TIME&gt;
 </code></pre>
+<p>Where <code>GENESIS_TIME</code> is in <a href="https://duckduckgo.com/?q=unix+time&amp;t=ffab&amp;ia=answer">unix time</a>.</p>
 <blockquote>
 <p>Notes:</p>
 <ul>
@@ -498,8 +511,7 @@ this flag.</p>
 <p><a name="http-state"></a></p>
 <h3><a class="header" href="#pretty-print-the-genesis-state-and-state-root" id="pretty-print-the-genesis-state-and-state-root">Pretty-print the genesis state and state root</a></h3>
 <p>Returns the genesis state and state root in your terminal, in YAML.</p>
-<pre><code>$ curl --header &quot;Content-Type: application/yaml&quot;
-&quot;localhost:5052/beacon/state?slot=0&quot;
+<pre><code>$ curl --header &quot;Content-Type: application/yaml&quot; &quot;localhost:5052/beacon/state?slot=0&quot;
 </code></pre>
 <p><a name="http-enr"></a></p>
 <h3><a class="header" href="#get-the-nodes-enr" id="get-the-nodes-enr">Get the node's ENR</a></h3>
