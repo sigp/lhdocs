@@ -80,7 +80,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li><a href="intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Development Environment</a></li><li><a href="simple-testnet.html"><strong aria-hidden="true">3.</strong> Simple Local Testnet</a></li><li><a href="interop.html"><strong aria-hidden="true">4.</strong> Interop</a></li><li><ol class="section"><li><a href="interop-environment.html"><strong aria-hidden="true">4.1.</strong> Environment</a></li><li><a href="interop-cli.html"><strong aria-hidden="true">4.2.</strong> CLI Overview</a></li><li><a href="interop-scenarios.html"><strong aria-hidden="true">4.3.</strong> Scenarios</a></li><li><a href="interop-cheat-sheet.html"><strong aria-hidden="true">4.4.</strong> Cheat-sheet</a></li></ol></li></ol>
+                <ol class="chapter"><li><a href="intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><a href="setup.html"><strong aria-hidden="true">2.</strong> Development Environment</a></li><li><a href="websockets.html"><strong aria-hidden="true">3.</strong> Websocket Interface</a></li><li><a href="simple-testnet.html"><strong aria-hidden="true">4.</strong> Simple Local Testnet</a></li><li><a href="interop.html"><strong aria-hidden="true">5.</strong> Interop</a></li><li><ol class="section"><li><a href="interop-environment.html"><strong aria-hidden="true">5.1.</strong> Environment</a></li><li><a href="interop-cli.html"><strong aria-hidden="true">5.2.</strong> CLI Overview</a></li><li><a href="interop-scenarios.html"><strong aria-hidden="true">5.3.</strong> Scenarios</a></li><li><a href="interop-cheat-sheet.html"><strong aria-hidden="true">5.4.</strong> Cheat-sheet</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -236,6 +236,84 @@ obtain it, use the Makefile in the root of the repository:</p>
 <pre><code>make ef_tests
 </code></pre>
 <p><em>Note: this will download 100+ MB of test files from the <a href="https://github.com/ethereum/eth2.0-spec-tests/">ethereum/eth2.0-spec-tests</a>.</em></p>
+<h1><a class="header" href="#websocket-interface" id="websocket-interface">Websocket Interface</a></h1>
+<p>By default, a Lighthouse <code>beacon_node</code> exposes a websocket server on <code>localhost:5053</code>.</p>
+<p>The following CLI flags control the websocket server:</p>
+<ul>
+<li><code>--no-ws</code>: disable the websocket server.</li>
+<li><code>--ws-port</code>: specify the listen port of the server.</li>
+<li><code>--ws-address</code>: specify the listen address of the server.</li>
+</ul>
+<p>All clients connected to the websocket server will receive the same stream of events, all triggered
+by the <code>BeaconChain</code>. Each event is a JSON object with the following schema:</p>
+<pre><code class="language-json">{
+    &quot;event&quot;: &quot;string&quot;,
+    &quot;data&quot;: &quot;object&quot;
+}
+</code></pre>
+<h2><a class="header" href="#events" id="events">Events</a></h2>
+<p>The following events may be emitted:</p>
+<h3><a class="header" href="#beacon-head-changed" id="beacon-head-changed">Beacon Head Changed</a></h3>
+<p>Occurs whenever the canonical head of the beacon chain changes.</p>
+<pre><code class="language-json">{
+    &quot;event&quot;: &quot;beacon_head_changed&quot;,
+    &quot;data&quot;: {
+        &quot;reorg&quot;: &quot;boolean&quot;,
+        &quot;current_head_beacon_block_root&quot;: &quot;string&quot;,
+        &quot;previous_head_beacon_block_root&quot;: &quot;string&quot;
+    }
+}
+</code></pre>
+<h3><a class="header" href="#beacon-finalization" id="beacon-finalization">Beacon Finalization</a></h3>
+<p>Occurs whenever the finalized checkpoint of the canonical head changes.</p>
+<pre><code class="language-json">{
+    &quot;event&quot;: &quot;beacon_finalization&quot;,
+    &quot;data&quot;: {
+        &quot;epoch&quot;: &quot;number&quot;,
+        &quot;root&quot;: &quot;string&quot;
+    }
+}
+</code></pre>
+<h3><a class="header" href="#beacon-block-imported" id="beacon-block-imported">Beacon Block Imported</a></h3>
+<p>Occurs whenever the beacon node imports a valid block.</p>
+<pre><code class="language-json">{
+    &quot;event&quot;: &quot;beacon_block_imported&quot;,
+    &quot;data&quot;: {
+        &quot;block&quot;: &quot;object&quot;
+    }
+}
+</code></pre>
+<h3><a class="header" href="#beacon-block-rejected" id="beacon-block-rejected">Beacon Block Rejected</a></h3>
+<p>Occurs whenever the beacon node rejects a block because it is invalid or an
+error occurred during validation.</p>
+<pre><code class="language-json">{
+    &quot;event&quot;: &quot;beacon_block_rejected&quot;,
+    &quot;data&quot;: {
+        &quot;reason&quot;: &quot;string&quot;,
+        &quot;block&quot;: &quot;object&quot;
+    }
+}
+</code></pre>
+<h3><a class="header" href="#beacon-attestation-imported" id="beacon-attestation-imported">Beacon Attestation Imported</a></h3>
+<p>Occurs whenever the beacon node imports a valid attestation.</p>
+<pre><code class="language-json">{
+    &quot;event&quot;: &quot;beacon_attestation_imported&quot;,
+    &quot;data&quot;: {
+        &quot;attestation&quot;: &quot;object&quot;
+    }
+}
+</code></pre>
+<h3><a class="header" href="#beacon-attestation-rejected" id="beacon-attestation-rejected">Beacon Attestation Rejected</a></h3>
+<p>Occurs whenever the beacon node rejects an attestation because it is invalid or
+an error occurred during validation.</p>
+<pre><code class="language-json">{
+    &quot;event&quot;: &quot;beacon_attestation_rejected&quot;,
+    &quot;data&quot;: {
+        &quot;reason&quot;: &quot;string&quot;,
+        &quot;attestation&quot;: &quot;object&quot;
+    }
+}
+</code></pre>
 <h1><a class="header" href="#simple-local-testnet" id="simple-local-testnet">Simple Local Testnet</a></h1>
 <p>You can setup a local, two-node testnet in <strong>Only Three CLI Commands™</strong>.</p>
 <p>Follow the <a href="simple-testnet.html#tldr">Quick instructions</a> version if you're confident, or see
